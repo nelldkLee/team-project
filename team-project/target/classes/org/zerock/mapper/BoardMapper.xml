@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.BoardMapper">
+
+	<!-- search map 관련
+	 <sql id="searchmap">
+		<where>
+			<if test="map != null">
+				<foreach collection="map.entrySet()" index="key" item="value"
+					open="(" close=")" separator="OR ">
+					<if test="key eq 't'.toString()">
+						title like concat('%',#{value},'%')
+					</if>
+					<if test="key eq 'w'.toString()">
+						writer like concat('%',#{value},'%')
+					</if>
+					<if test="key eq 'c'.toString()">
+						content like concat('%',#{value},'%')
+					</if>
+
+				</foreach>
+			</if>
+		</where>
+	</sql> -->
+
+	<sql id="search">
+		<where>
+		<!-- String[] arr = ['t','c'] -->
+			<if test="cri.getType() != null and cri.getKeyword()">
+				<foreach collection="cri.getArr()" item="target" open="("
+					close=")" separator="OR ">
+					<if test="target eq 't'.toString()">
+						title like concat('%',#{cri.keyword},'%')
+					</if>
+					<if test="target eq 'w'.toString()">
+						writer like concat('%',#{cri.keyword},'%')
+					</if>
+					<if test="target eq 'c'.toString()">
+						content like concat('%',#{cri.keyword},'%')
+					</if>
+				</foreach>
+			</if>
+		</where>
+	</sql>
+
+	<select id="list" resultType="org.zerock.domain.BoardVO">
+		select * from test_board
+		<include refid="search" />
+		limit #{cri.skip}, 10
+	</select>
+	
+	<insert id="insert" parameterType="org.zerock.domain.BoardVO">
+		insert into test_board (title,content,writer) values(#{title},#{content},#{writer})
+	</insert>
+	
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+		select * from test_board where bno= #{bno}
+	</select>
+
+	<update id="update" parameterType="org.zerock.domain.BoardVO">
+		update test_board set title=#{title}, content=#{content}, writer=#{writer} where bno=#{bno}
+	</update>
+	
+	<delete id="delete">
+		delete from test_board where bno=#{bno}
+	</delete>
+	
+	<select id="getTotal" resultType="int">
+		select count(*) from test_board
+		<include refid="search" />
+	</select>
+	
+
+</mapper>
