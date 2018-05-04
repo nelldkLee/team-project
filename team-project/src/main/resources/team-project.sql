@@ -12,7 +12,7 @@ insert into test_board (writer,title,content) values('user03','test title10','te
 
 
 
-select * from test_board
+select * from test_board;
 
 
 select * from test_board WHERE ( writer like concat('%','01','%') ) limit 0, 10

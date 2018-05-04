@@ -34,5 +34,5 @@
 	</bean>
 
 	<mybatis-spring:scan base-package="org.zerock.mapper" />
-	<context:component-scan base-package="org.zerock.controller"></context:component-scan>
+	<context:component-scan base-package="org.zerock.persistence"/>
 </beans>

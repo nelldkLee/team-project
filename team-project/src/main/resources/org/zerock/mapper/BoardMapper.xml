@@ -30,7 +30,7 @@
 	<sql id="search">
 		<where>
 		<!-- String[] arr = ['t','c'] -->
-			<if test="cri.getType() != null and cri.getKeyword()">
+			<if test="cri.getType() != null and cri.getKeyword() and cri.getType() != ''">
 				<foreach collection="cri.getArr()" item="target" open="("
 					close=")" separator="OR ">
 					<if test="target eq 't'.toString()">
@@ -50,7 +50,7 @@
 	<select id="list" resultType="org.zerock.domain.BoardVO">
 		select * from test_board
 		<include refid="search" />
-		limit #{cri.skip}, 10
+		order by bno desc limit #{cri.skip}, 10
 	</select>
 	
 	<insert id="insert" parameterType="org.zerock.domain.BoardVO">
@@ -62,7 +62,7 @@
 	</select>
 
 	<update id="update" parameterType="org.zerock.domain.BoardVO">
-		update test_board set title=#{title}, content=#{content}, writer=#{writer} where bno=#{bno}
+		update test_board set title=#{title}, content=#{content}, writer=#{writer}, updatedate=now() where bno=#{bno}
 	</update>
 	
 	<delete id="delete">

@@ -1,68 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!--
-	Massively by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-<head>
-<title>Elements Reference - Massively by HTML5 UP</title>
-<meta charset="utf-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="/resources/assets/css/main.css" />
-<noscript>
-	<link rel="stylesheet" href="/resources/assets/css/noscript.css" />
-</noscript>
-</head>
-<body class="is-loading">
-
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<div id="intro">
-			<h1>
-				This is<br /> Massively
-			</h1>
-			<p>
-				A free, fully responsive HTML5 + CSS3 site template designed by <a
-					href="https://twitter.com/ajlkn">@ajlkn</a> for <a
-					href="https://html5up.net">HTML5 UP</a><br /> and released for
-				free under the <a href="https://html5up.net/license">Creative
-					Commons license</a>.
-			</p>
-			<ul class="actions">
-				<li><a href="#header"
-					class="button icon solo fa-arrow-down scrolly">Continue</a></li>
-			</ul>
-		</div>
-		<!-- Header -->
-		<header id="header"> <a href="index.html" class="logo">TEAM-PROJECT</a>
-		</header>
-
-		<!-- Nav -->
-		<nav id="nav">
-		<ul class="links">
-			<li><a href="index.html">This is Massively</a></li>
-			<li><a href="generic.html">Generic Page</a></li>
-			<li class="active"><a href="elements.html">자유게시판</a></li>
-		</ul>
-		<ul class="icons">
-			<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-			<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-			<li><a href="#" class="icon fa-instagram"><span
-					class="label">Instagram</span></a></li>
-			<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-		</ul>
-		</nav>
-
-		<!-- Main -->
-		<div id="main">
-
+<%@ include file="../includes/header.jsp" %>
 			<!-- Table -->
-
 			<div class="table-wrapper">
 				<table>
 					<thead>
@@ -90,18 +30,19 @@
 						<div class="4u 12u$(xsmall)">
 							<div class="select-wrapper">
 								<select name="type" id="demo-category">
-									<option value="t" selected="selected">제목</option>
-									<option value="c">내용</option>
-									<option value="w">작성자</option>
-									<option value="t-w">제목+작성자</option>
-									<option value="c-w">내용+작성자</option>
-									<option value="t-c-w">제목+내용+작성자</option>
+									<option value="">-검색-</option>
+									<option value="t" <c:out value="${cri.type eq 't'?'selected':''}"/>>제목</option>
+									<option value="c" <c:out value="${cri.type eq 'c'?'selected':''}"/>>내용</option>
+									<option value="w" <c:out value="${cri.type eq 'w'?'selected':''}"/>>작성자</option>
+									<option value="t-w" <c:out value="${cri.type eq 't-w'?'selected':''}"/>>제목+작성자</option>
+									<option value="c-w" <c:out value="${cri.type eq 'c-w'?'selected':''}"/>>내용+작성자</option>
+									<option value="t-c-w" <c:out value="${cri.type eq 't-c-w'?'selected':''}"/>>제목+내용+작성자</option>
 								</select>
 							</div>
 						</div>
 						<div class="4u 12u$(xsmall)">
 							<input type="text" name="keyword" id="demo-name"
-								placeholder="Keyword" />
+								placeholder="Keyword" value=<c:out value="${cri.keyword}"/>>
 						</div>
 						<div class="2u 12u$(xsmall)">
 							<button class="button special icon fa-search">Search</button>
@@ -132,32 +73,26 @@
 				</div>
 			</div>
 		</div>
+<%@ include file="../includes/footer.jsp" %>
 
-		<!-- Footer -->
-		<footer id="footer"> </footer>
-		<!-- Copyright -->
-		<div id="copyright">
-			<ul>
-				<li>&copy; Untitled</li>
-				<li>Design: <a href="localhost:8080/board/list">HTML5 UP</a></li>
-			</ul>
-		</div>
-	</div>
+<script>
+	$("table tr").on("click", function(e) {
+		console.dir(e);
+		console.dir($(this));
+		console.log($(this).attr("data-bno"));
+		var bno = $(this).attr("data-bno");
+		//검색 조건 유지 관련 추가 예정
+		location.href = "/board/read?bno=" + bno + "&${cri.makeURL()}";
+	});
 
-	<!-- Scripts -->
-	<script src="/resources/assets/js/jquery.min.js"></script>
-	<script src="/resources/assets/js/jquery.scrollex.min.js"></script>
-	<script src="/resources/assets/js/jquery.scrolly.min.js"></script>
-	<script src="/resources/assets/js/skel.min.js"></script>
-	<script src="/resources/assets/js/util.js"></script>
-	<script src="/resources/assets/js/main.js"></script>
-	<script>
-		$("table").on("click","tr",function(e){
-			console.dir(e);
-			console.dir($(this));
-			console.log($(this).attr("data-bno"));
-		});
-	</script>
-</body>
-
-</html>
+	if(${msg != null}){
+		if(${msg == "Success"}){
+			alert("등록 완료");
+		}else{
+			alert("등록 실패");
+		}
+	};
+	
+	
+</script>
+		

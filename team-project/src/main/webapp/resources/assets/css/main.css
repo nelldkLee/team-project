@@ -86,6 +86,11 @@
 	.row.uniform > * > :last-child {
 		margin-bottom: 0;
 	}
+	#read {
+		background-color: #eeeeee;
+		border: solid 1px;
+		border-color: #b0b0b0;
+	}
 
 	.row.\30 \25 > * {
 		padding: 0 0 0 0rem;
